@@ -60,7 +60,9 @@ class FindCDS:
 		self.seq = seq
 		self.result = (0,0,0,0,0)
 		self.longest = 0
-		self.basepair = {"A":"T","T":"A","U":"A","C":"G","G":"C","N":"N","X":"X"}
+		# EDIT: add ambiguous base pairing, direct from biopython/Bio/Data/IUPACData.py ambiguous_dna_complement 
+		# Source: https://github.com/biopython/biopython/blob/40bbed133c99081b7f370e843ca560504ce18e04/Bio/Data/IUPACData.py
+		self.basepair = {"A":"T","T":"A","U":"A","C":"G","G":"C","N":"N","X":"X","M":"K","R":"Y","W":"W","S":"S","Y":"R","K":"M","V":"B","H":"D","D":"H","B":"V"}
 
 	def _reversecompliment(self):
 		return "".join(self.basepair[base] for base in self.seq)[::-1]
