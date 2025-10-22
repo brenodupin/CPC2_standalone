@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# libsvm
+libs/libsvm/libsvm-3.18
+
+# Local test files
+test/
+
 # Distribution / packaging
 .Python
 env/

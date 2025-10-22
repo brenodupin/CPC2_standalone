@@ -1,9 +1,8 @@
 CPC2 standalone
 ====
 
-* 2020-01-13 14:58, Yu-jian Kang
-* This is a python 2 verison of CPC2 (same with the version of the original paper).
-* Thanks for helps from **HyperOdin**, there is a python 3 version (the release of *CPC2_standalone_python3 v1.0.1*)
+* 2019-11-23 15:30, Yang Ding
+   - Now CPC2 supports both Python 2 and Python 3 (thanks for help from HyperOdin)
 
 1 Pre-requisite:
 ----
@@ -29,19 +28,17 @@ b. Build third-part packages:
 ----
 	tom@linux$ cd $CPC_HOME
 	tom@linux$ bin/CPC2.py -i (input_seq) -o (result_in_table)
-	
-Example:
-	
-	tom@linux$ bin/CPC2.py -i data/example.fa -o example_output
-	
-If you want to output predicted peptide sequence, use CPC2_output_peptide.py with "--ORF" option:
-
-	tom@linux$ bin/CPC2_output_peptide.py -i data/example.fa -o example_output --ORF
+example: tom@linux$ bin/CPC2.py -i data/example.fa -o example_output
 
 4 Output result
 ----
-Result in table format (delimited by tab):<br>
-#ID	peptide_length	Fickett_score	isoelectric_point	ORF_integrity	coding_probability	coding_label
+The result is in table format (plain text delimited by tab).
+
+Default output:<br>
+#ID	transcript_length	peptide_length	Fickett_score	pI	ORF_integrity	coding_probability	label
+
+Set '--ORF' to output the start position of longest ORF:<br>
+#ID	transcript_length	peptide_length	Fickett_score	pI	ORF_integrity	ORF_Start	coding_probability	label
 
 Contact
 ----
