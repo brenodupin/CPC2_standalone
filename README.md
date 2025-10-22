@@ -1,6 +1,11 @@
 CPC2 standalone
 ====
 
+* 2025-10-22 11:30 BRT Breno Dupin / Matheus Sanita
+   - Rebase [python3 changes](https://github.com/gao-lab/CPC2_standalone/releases/tag/v1.0.1) from HyperOdin into repository
+   - Update basepair with ambiguous base pairing
+   - Add `putative_peptide` output to `--ORF` flag (same as [CPC2_output_peptide.py](https://github.com/gao-lab/CPC2_standalone/blob/53ba517309aad8ddb1054c13ea93d6781ce3dfe8/bin/CPC2_output_peptide.py))
+
 * 2019-11-23 15:30, Yang Ding
    - Now CPC2 supports both Python 2 and Python 3 (thanks for help from HyperOdin)
 
