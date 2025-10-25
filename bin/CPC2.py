@@ -26,7 +26,7 @@ def __main():
 	Common_group.add_option("-i",dest="fasta",help="input sequence in fasta format [Required]",metavar="FILE",type="string",default=None)
 	Common_group.add_option("-o",dest="outfile",help="output file [Default: cpc2output.txt]",metavar="FILE",type="string",default="cpc2output.txt")
 	Common_group.add_option("-r",dest="reverse",help="also check the reverse strand [Default: FALSE]",action="store_true")
-	Common_group.add_option("--ORF",dest="ORF",help="output the start position of longest ORF and the putative peptide [Default: FALSE]",action="store_true")
+	Common_group.add_option("--ORF",dest="ORF",help="output the strand, start position and putative peptide of longest ORF[Default: FALSE]",action="store_true")
 	parser.add_option_group(Common_group)
 	(options, args) = parser.parse_args()
 	if options.fasta == None:
@@ -264,7 +264,8 @@ def calculate_potential(fasta,strand,output_orf,outfile):
 	ftmp_result = open(outfile,"w")
 	if output_orf == 1:
 		# EDIT: add Peptide column if --ORF is chosen
-		my_header = ["#ID","transcript_length","peptide_length","Fickett_score","pI","ORF_integrity","ORF_Start", "putative_peptide","coding_probability","label"]
+		# EDIT: add Strand of the longest_orf (orf_strand) column if --ORF is chosen
+		my_header = ["#ID","transcript_length","peptide_length","Fickett_score","pI","ORF_integrity","ORF_Strand","ORF_Start", "putative_peptide","coding_probability","label"]
 	else:
 		my_header = ["#ID","transcript_length","peptide_length","Fickett_score","pI","ORF_integrity","coding_probability","label"]
 	ftmp_result.write("\t".join(map(str,my_header))+"\n")
@@ -293,7 +294,8 @@ def calculate_potential(fasta,strand,output_orf,outfile):
 			isoelectric_point = 0.0
 		if output_orf == 1:
 			# EDIT: add Peptide (newseqprot) column if --ORF is chosen
-			output_line = [seqid,len(seqRNA),pep_len,fickett_score,isoelectric_point,orf_fullness,start_pos,newseqprot]
+			# EDIT: add Strand of the longest_orf (orf_strand) column if --ORF is chosen
+			output_line = [seqid,len(seqRNA),pep_len,fickett_score,isoelectric_point,orf_fullness,orf_strand,start_pos,newseqprot]
 		else:
 			output_line = [seqid,len(seqRNA),pep_len,fickett_score,isoelectric_point,orf_fullness]
 		ftmp_result.write("\t".join(map(str,output_line))+"\n")
