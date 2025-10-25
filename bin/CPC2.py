@@ -17,6 +17,8 @@ from Bio.Seq import Seq
 from Bio.SeqUtils import ProtParam
 import seqio
 
+DEBUG = False
+
 def __main():
 	start_time = time.time()
 	usage = "usage: %prog [options] -i input.fasta -o output_file"
@@ -27,6 +29,7 @@ def __main():
 	Common_group.add_option("-o",dest="outfile",help="output file [Default: cpc2output.txt]",metavar="FILE",type="string",default="cpc2output.txt")
 	Common_group.add_option("-r",dest="reverse",help="also check the reverse strand [Default: FALSE]",action="store_true")
 	Common_group.add_option("--ORF",dest="ORF",help="output the strand, start position and putative peptide of longest ORF[Default: FALSE]",action="store_true")
+	Common_group.add_option("--debug",dest="debug",help="show debug information [Default: FALSE]",action="store_true")
 	parser.add_option_group(Common_group)
 	(options, args) = parser.parse_args()
 	if options.fasta == None:
@@ -44,6 +47,9 @@ def __main():
 		output_orf = 1
 	else:
 		output_orf = 0
+	if options.debug:
+		global DEBUG
+		DEBUG = True
 	if calculate_potential(options.fasta,strand,output_orf,options.outfile):
 		return 1
 	sys.stderr.write("[INFO] cost time: %ds\n"%(time.time()-start_time))
@@ -244,7 +250,10 @@ class Fickett:
 #===================
 
 def mRNA_translate(mRNA):
-	return Seq(mRNA).translate()
+	return_seq = Seq(mRNA).translate()
+	if DEBUG:
+		sys.stderr.write(f"prot : {return_seq}\n")
+	return return_seq
 
 def protein_param(putative_seqprot):
 	return putative_seqprot.isoelectric_point()
@@ -281,6 +290,9 @@ def calculate_potential(fasta,strand,output_orf,outfile):
 		pep_len = len(seqprot) #pep_len = len(seqprot.strip("*"))
 		newseqprot = strinfoAmbiguous.sub("",str(seqprot))
 		'''exclude ambiguous amio acid X, B, Z, J, Y in peptide sequence'''
+		if DEBUG:
+			sys.stderr.write(f"clean: {newseqprot}\n")
+			sys.stderr.write(f"chosen strand: {orf_strand} | seqCDS: {seqCDS}\n\n")
 		fickett_score = fickett_obj.fickett_value(seqRNA)
 		protparam_obj = ProtParam.ProteinAnalysis(str(newseqprot.strip("*")))
 		if pep_len > 0:
